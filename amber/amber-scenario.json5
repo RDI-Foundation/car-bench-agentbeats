@@ -3,12 +3,12 @@
   config_schema: {
     type: "object",
     properties: {
-      google_api_key: { type: "string", secret: true },
+      gemini_api_key: { type: "string", secret: true },
       anthropic_api_key: { type: "string", secret: true },
-      agent_llm: { type: "string" },
+      agent_llm: { type: "string" }
     },
-    required: ["google_api_key", "agent_llm", "anthropic_api_key"],
-    additionalProperties: false,
+    required: ["gemini_api_key", "agent_llm", "anthropic_api_key"],
+    additionalProperties: false
   },
   components: {
     gateway: {
@@ -25,38 +25,31 @@
         },
         participant_roles: {
           green: "evaluator",
-          purple1: "agent",
+          purple1: "agent"
         },
         callback_urls: {
-          green: "${bindings.green-proxy.url}",
-        },
-      },
+          green: "${bindings.green-proxy.url}"
+        }
+      }
     },
     green: {
       manifest: "./amber-manifest-green.json5",
       config: {
-        gemini_api_key: "${config.google_api_key}",
-      },
+        gemini_api_key: "${config.gemini_api_key}"
+      }
     },
     purple_agent: {
       manifest: "./amber-manifest-purple.json5",
       config: {
         agent_llm: "${config.agent_llm}",
-        anthropic_api_key: "${config.anthropic_api_key}",
-      },
-    },
+        anthropic_api_key: "${config.anthropic_api_key}"
+      }
+    }
   },
   bindings: [
     { to: "#gateway.green", from: "#green.a2a" },
     { to: "#gateway.purple1", from: "#purple_agent.a2a" },
-    { to: "#green.proxy", from: "#gateway.proxy", weak: true, name: "green-proxy" },
-    { to: "#purple_agent.proxy", from: "#green.a2a" },
+    { to: "#green.proxy", from: "#gateway.proxy", weak: true, name: "green-proxy" }
   ],
-  exports: { results: "#gateway.results" },
-  metadata: {
-    agentbeats_ids: {
-      "car_bench_evaluator": 1234,
-      "car_bench_agent": 567,
-    }
-  }
+  exports: { results: "#gateway.results" }
 }
