@@ -43,9 +43,9 @@
       "topic": "CAR-Bench evaluation tasks",
       "task_split": "test",
       "num_trials": 1,
-      "tasks_base_num_tasks": 3,
-      "tasks_hallucination_num_tasks": 2,
-      "tasks_disambiguation_num_tasks": 2,
+      "tasks_base_num_tasks": -1,
+      "tasks_hallucination_num_tasks": -1,
+      "tasks_disambiguation_num_tasks": -1,
       "max_steps": 50
     },
     participant_roles: ["agent"]
